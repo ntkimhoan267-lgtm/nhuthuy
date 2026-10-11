@@ -1,0 +1,321 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Trắc Nghiệm Dấu Chân Tỉnh Thức</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,500;0,700;0,800;1,500&family=Be+Vietnam+Pro:wght@400;500;600&display=swap">
+<style>
+/* Layout: một cột hẹp cho điện thoại; bước 1 điền tên, bước 2 làm bài, bước 3 xem kết quả */
+:root{
+  --bg:#edf1f4;--paper:#f9fbfc;--ink:#1c2833;--muted:#5a6977;--lam:#376891;--gold:#a8771c;--gold-soft:#f3e7cc;--line:#c9d4dd;
+  --ok:#2f7a4f;--ok-soft:#dcefe3;--bad:#b5473a;--bad-soft:#f6dfdb;
+  --display:"Alegreya",Georgia,"Times New Roman",serif;
+  --body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111921;--paper:#18232d;--ink:#e4ebf1;--muted:#97a6b4;--lam:#82acd0;--gold:#e0b04f;--gold-soft:#3a2f1a;--line:#2c3b48;
+  --ok:#6cc495;--ok-soft:#1d3628;--bad:#ec8a7c;--bad-soft:#3d2320;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111921;--paper:#18232d;--ink:#e4ebf1;--muted:#97a6b4;--lam:#82acd0;--gold:#e0b04f;--gold-soft:#3a2f1a;--line:#2c3b48;
+  --ok:#6cc495;--ok-soft:#1d3628;--bad:#ec8a7c;--bad-soft:#3d2320;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding-inline:16px;padding-block:24px 96px}
+.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--lam);font-weight:600}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(32px,8vw,48px);line-height:1.03;margin:0;text-wrap:balance}
+h1 em{font-style:italic;font-weight:500;color:var(--gold)}
+h2{font-family:var(--display);font-size:24px;margin:0;line-height:1.2;text-wrap:balance}
+.lede{margin:0;color:var(--muted)}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:14px}
+label.f{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px}
+input[type=text]{font:inherit;font-size:16px;padding:12px 14px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+input[type=text]:focus{outline:none;border-color:var(--lam)}
+.err{color:var(--bad);font-size:14px;margin:0;min-height:1.2em}
+.btn{font:600 16px var(--body);border:1.5px solid var(--lam);background:var(--lam);color:var(--paper);padding:13px 20px;border-radius:999px;cursor:pointer;text-align:center}
+.btn.ghost{background:transparent;color:var(--lam)}
+.btn:focus-visible,input:focus-visible,.opt:has(input:focus-visible){outline:3px solid var(--gold);outline-offset:2px}
+.facts{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:14px;color:var(--muted)}
+.facts b{color:var(--ink)}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--line)}
+.bar-row{display:flex;justify-content:space-between;gap:10px;font-size:14px;align-items:baseline}
+.who{font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.count{color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.track{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.fill{height:100%;background:var(--gold);width:0;transition:width .25s}
+.section-title{font-family:var(--display);font-size:20px;font-weight:700;margin:8px 0 0;color:var(--lam)}
+
+.q{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.q-top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.num{font:800 22px var(--display);font-variant-numeric:tabular-nums}
+.tag{font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.tag.p{color:var(--gold);border-color:var(--gold)} .tag.k{color:var(--lam);border-color:var(--lam)}
+.prompt{margin:0;font-weight:600}
+.code{font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em;white-space:nowrap}
+.opts{display:grid;gap:7px;border:0;margin:0;padding:0;min-width:0}
+.opt{display:grid;grid-template-columns:28px 1fr;gap:8px;align-items:start;padding:11px 12px;border:1.5px solid var(--line);border-radius:9px;cursor:pointer;background:var(--bg);font-size:15px}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt .l{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--muted);display:grid;place-items:center;font-size:12.5px;font-weight:600;color:var(--muted)}
+.opt:has(input:checked){border-color:var(--lam);background:var(--paper)}
+.opt:has(input:checked) .l{background:var(--lam);border-color:var(--lam);color:var(--paper)}
+.q.missing{border-color:var(--bad)}
+.submit-zone{display:flex;flex-direction:column;gap:10px}
+.warn{background:var(--bad-soft);color:var(--ink);border-radius:9px;padding:12px 14px;font-size:14.5px;display:flex;flex-direction:column;gap:10px}
+.warn-actions{display:flex;flex-wrap:wrap;gap:8px}
+.warn-actions .btn{padding:9px 16px;font-size:14px}
+
+.score-card{background:var(--paper);border:2px solid var(--gold);border-radius:14px;padding:22px 20px;display:flex;flex-direction:column;gap:12px}
+.big{font:800 64px/1 var(--display);color:var(--gold);font-variant-numeric:tabular-nums}
+.big small{font-size:28px;color:var(--muted);font-weight:500}
+.split{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.split div{border:1px solid var(--line);border-radius:9px;padding:9px;text-align:center;font-size:13px;color:var(--muted)}
+.split b{display:block;font:700 22px var(--display);color:var(--ink);font-variant-numeric:tabular-nums}
+.stamp{font-size:13px;color:var(--muted);display:grid;gap:2px}
+.stamp code{font-size:15px;color:var(--ink);font-weight:600;letter-spacing:.12em}
+.send{display:flex;flex-direction:column;gap:8px;border-top:1px dashed var(--line);padding-top:12px;font-size:14px;color:var(--muted)}
+.send strong{color:var(--ink);font-size:15px}
+.send textarea{font:13px ui-monospace,Menlo,Consolas,monospace;width:100%;padding:10px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);resize:none;word-break:break-all}
+#copyMsg{color:var(--ok);font-weight:600}
+.code-big{font:700 20px ui-monospace,Menlo,Consolas,monospace;color:var(--ink);letter-spacing:.06em;word-break:break-all}
+.review .opt{cursor:default}
+.review .opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.review .opt.right .l{border-color:var(--ok);background:var(--ok);color:var(--paper)}
+.review .opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.review .opt.wrong .l{border-color:var(--bad);background:var(--bad);color:var(--paper)}
+.verdict{font-size:13px;font-weight:600}
+.verdict.ok{color:var(--ok)} .verdict.no{color:var(--bad)}
+.note{margin:0;font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+.motto{font-family:var(--display);font-style:italic;font-size:18px;color:var(--muted);margin:8px 0 0;text-align:center;text-wrap:balance}
+@media (prefers-reduced-motion:reduce){.fill{transition:none}}
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:10px">
+    <div class="eyebrow">Trò chơi lớn · Gia Đình Phật Tử</div>
+    <h1>Dấu Chân Tỉnh Thức <em>bài trắc nghiệm</em></h1>
+  </header>
+
+  <!-- Bước 1 -->
+  <section id="stepStart" class="panel" aria-labelledby="startTitle">
+    <h2 id="startTitle">Ghi danh trước khi lên đường</h2>
+    <p class="lede">Điền tên và tên đội, sau đó chọn một đáp án cho mỗi câu. Bấm “Nộp bài” để xem điểm, rồi gửi mã kết quả cho anh chị quản trò.</p>
+    <div class="facts"><span><b>20</b> câu Phật pháp &amp; kỹ năng</span><span><b>5</b> câu tiếng Anh</span><span>Mỗi câu <b>1</b> điểm</span></div>
+    <form id="startForm" novalidate style="display:flex;flex-direction:column;gap:14px">
+      <label class="f" for="playerName">Họ và tên
+        <input type="text" id="playerName" autocomplete="name" placeholder="Ví dụ: Nguyễn Minh An" maxlength="60">
+      </label>
+      <label class="f" for="teamName">Tên đội
+        <input type="text" id="teamName" placeholder="Ví dụ: Đội Sen Hồng" maxlength="40">
+      </label>
+      <p class="err" id="startErr" role="alert"></p>
+      <button class="btn" type="submit">Bắt đầu làm bài</button>
+    </form>
+  </section>
+
+  <!-- Bước 2 -->
+  <section id="stepQuiz" hidden>
+    <div class="bar">
+      <div class="bar-row"><span class="who" id="whoLine"></span><span class="count" id="countLine">0/25</span></div>
+      <div class="track"><div class="fill" id="fill"></div></div>
+    </div>
+    <form id="quizForm" novalidate style="display:flex;flex-direction:column;gap:14px;margin-top:16px">
+      <div id="qList" style="display:flex;flex-direction:column;gap:14px"></div>
+      <div class="submit-zone">
+        <div class="warn" id="warnBox" hidden>
+          <span id="warnText"></span>
+          <div class="warn-actions">
+            <button class="btn ghost" type="button" id="goMissing">Đến câu chưa làm</button>
+            <button class="btn" type="button" id="submitAnyway">Vẫn nộp bài</button>
+          </div>
+        </div>
+        <button class="btn" type="submit">Nộp bài</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Bước 3 -->
+  <section id="stepResult" hidden style="display:flex;flex-direction:column;gap:16px">
+    <div class="score-card" id="scoreCard"></div>
+    <h2>Xem lại bài làm</h2>
+    <div id="reviewList" class="review" style="display:flex;flex-direction:column;gap:14px"></div>
+    <button class="btn ghost" type="button" id="restart">Người khác làm bài</button>
+    <p class="motto">“Kho báu lớn nhất chính là sự thức tỉnh trong từng bước chân.”</p>
+  </section>
+</div>
+
+<script>
+const Q = [
+  {t:"p",lv:"Mở Mắt",q:"Ba Ngôi báu là:",o:["Bi – Trí – Dũng","Phật – Pháp – Tăng","Hòa – Tin – Vui","Giới – Định – Tuệ"],a:1,note:"Tam Bảo gồm Phật bảo, Pháp bảo, Tăng bảo."},
+  {t:"k",lv:"Mở Mắt",q:"Khi anh chị trưởng thổi 3 tiếng còi ngắn (tích – tích – tích), đó là chữ:",o:["Chữ H","Chữ M","Chữ CH","Chữ S"],a:3,note:"Trong Morse, S = · · · (ba tiếng tích)."},
+  {t:"p",lv:"Mở Mắt",q:"Thái tử Tất Đạt Đa đản sanh tại đâu?",o:["Vườn Lâm Tỳ Ni, thành Ma Kiệt Đà","Vườn Lộc Uyển, thành Ca Tỳ La Vệ","Vườn Nai, thành Câu Thi La","Vườn Lâm Tỳ Ni, thành Ca Tỳ La Vệ"],a:3,note:"Dưới cây Vô Ưu, vườn Lâm Tỳ Ni, thành Ca Tỳ La Vệ."},
+  {t:"k",lv:"Mở Mắt",q:"Anh chị trưởng đứng im, hai tay vòng trước ngực. Em tập họp theo:",o:["Hàng dọc","Hàng ngang","Vòng tròn","Hình vuông"],a:2,note:"Hai tay vòng trước ngực là hiệu lệnh tập họp vòng tròn."},
+  {t:"p",lv:"Cánh Mềm",q:"Tướng mạo của Thái tử đẹp đẽ, nhân từ vì có:",o:["32 tướng tốt và 108 vẻ đẹp","32 tướng tốt và 48 vẻ đẹp","23 tướng tốt và 80 vẻ đẹp","32 tướng tốt và 80 vẻ đẹp"],a:3,note:"32 tướng tốt, 80 vẻ đẹp."},
+  {t:"k",lv:"Cánh Mềm",q:"Các loại gút dùng để nối dây là:",o:["Gút dẹp, gút quai chèo, gút số 8","Gút dẹp, gút dệt đơn","Gút dệt đơn, gút hoa hồng","Gút số 8, gút hoa hồng"],a:1,note:"Gút dẹp nối hai dây bằng nhau; gút dệt đơn nối hai dây khác cỡ."},
+  {t:"p",lv:"Sơ Thiện",q:"Vô lượng quang – Vô lượng thọ – Vô lượng công đức là ý nghĩa danh hiệu của vị Phật nào?",o:["Đức Phật Thích Ca Mâu Ni","Đức Phật A Di Đà","Đức Phật Nhiên Đăng","Đức Phật Di Lặc"],a:1,note:"A Di Đà nghĩa là ánh sáng vô lượng, thọ mạng vô lượng."},
+  {t:"k",lv:"Chân Cứng",q:"Giải 4 ký hiệu Morse: <span class='code'>—·—·</span> , <span class='code'>·——</span> , <span class='code'>·—··</span> , <span class='code'>—··—</span>",o:["C, W, L, X","C, G, L, X","C, W, F, X","C, W, L, P"],a:0,note:"C = —·—· · W = ·—— · L = ·—·· · X = —··—"},
+  {t:"p",lv:"Chân Cứng",q:"Ăn chay 6 ngày trong tháng âm lịch là những ngày nào?",o:["Mồng 1, 8, 14, 15, 23 và 30","Mồng 1, 8, 14, 15, 24 và 30","Mồng 1, 6, 14, 15, 29 và 30","Mồng 1, 10, 14, 15, 22 và 30"],a:0,note:"Tháng thiếu thì thay ngày 30 bằng 29."},
+  {t:"k",lv:"Chân Cứng",q:"Công dụng của gút cẳng chó:",o:["Căng dây trại","Thâu ngắn dây khi đã bị buộc chặt 2 đầu","Để trang trí","Tất cả đều sai"],a:1,note:"Dùng khi dây quá dài mà hai đầu đã cố định."},
+  {t:"p",lv:"Tung Bay",q:"Nhờ pháp gì mà các bậc tu hành sống hòa thuận với nhau?",o:["Tam quy","Ngũ giới","Lục hòa","Bát chánh đạo"],a:2,note:"Sáu pháp hòa kính: Thân, Khẩu, Ý, Giới, Kiến, Lợi."},
+  {t:"k",lv:"Hướng Thiện",q:"Buổi sáng có nắng, ta xác định phương hướng bằng cách:",o:["Bóng ta ngã về hướng nào thì đó là hướng Tây","Quay mặt về mặt trời, bên trái ta là hướng Bắc","Cả 2 câu trên đều đúng","Cả 2 câu trên đều sai"],a:2,note:"Buổi sáng mặt trời ở hướng Đông nên bóng ngã về Tây, tay trái chỉ Bắc."},
+  {t:"p",lv:"Tung Bay",q:"Trong 5 hạnh của người Phật tử, hạnh Trí Tuệ tượng trưng cho vị Bồ Tát nào?",o:["Bồ Tát Quán Thế Âm","Tôn giả Mục Kiền Liên","Bồ Tát Văn Thù Sư Lợi","Bồ Tát Đại Thế Chí"],a:2,note:"Văn Thù Sư Lợi là biểu tượng của Đại Trí."},
+  {t:"k",lv:"Tung Bay",q:"Để dựng lều 2 mái (lều chữ A) vững chắc, em cần:",o:["2 gậy, 4 cọc, dây","2 gậy, 6 cọc, dây","4 gậy, 4 cọc, dây","4 gậy, 6 cọc, dây"],a:1,note:"2 gậy dựng hai đầu, 6 cọc giữ dây và góc lều."},
+  {t:"p",lv:"Hướng Thiện",q:"Trong đêm thành đạo, Thái tử chứng được Tam minh, đó là:",o:["Tha tâm minh – Lậu tận minh – Thần túc minh","Thiên nhĩ minh – Thiên nhãn minh – Thần túc minh","Túc mạng minh – Thiên nhãn minh – Lậu tận minh","Thiên nhãn minh – Thiên nhĩ minh – Tha tâm minh"],a:2,note:"Canh một Túc mạng minh, canh hai Thiên nhãn minh, canh ba Lậu tận minh."},
+  {t:"k",lv:"Sơ Thiện",q:"Gút nào dùng để cứu người dưới giếng, sông sâu lên hoặc đưa người từ trên cao xuống?",o:["Gút sơn ca","Gút ghế đơn","Gút thợ dệt","Gút cẳng chó"],a:1,note:"Gút ghế đơn tạo vòng không tuột, an toàn khi kéo người."},
+  {t:"p",lv:"Sơ Thiện",q:"Vị đại đệ tử nào của Đức Phật được tôn xưng là Thuyết pháp đệ nhất?",o:["Tôn giả La Hầu La","Tôn giả A Nan","Tôn giả Phú Lâu Na","Tôn giả Ma Ha Ca Diếp"],a:2,note:"La Hầu La: Mật hạnh; A Nan: Đa văn; Ca Diếp: Đầu đà đệ nhất."},
+  {t:"k",lv:"Sơ Thiện",q:"Ở nước ta, vào ngày xuân phân và thu phân, mặt trời mọc và lặn ở hướng nào?",o:["Mọc hướng Đông, lặn hướng Tây","Mọc Đông Nam, lặn Tây Nam","Mọc Đông Bắc, lặn Tây Bắc","Sáng Đông, trưa Nam, chiều lặn Tây"],a:0,note:"Hai ngày này mặt trời mọc đúng chính Đông, lặn đúng chính Tây."},
+  {t:"p",lv:"Trung Thiện",q:"Tam Tổ của Thiền phái Trúc Lâm Yên Tử gồm:",o:["Trần Nhân Tông – Đa Bảo – Minh Giác","Trần Nhân Tông – Tuệ Trung Thượng Sĩ – Pháp Loa","Trần Nhân Tông – Tuệ Trung Thượng Sĩ – Huyền Quang","Trần Nhân Tông – Pháp Loa – Huyền Quang"],a:3,note:"Sơ Tổ Trần Nhân Tông, Nhị Tổ Pháp Loa, Tam Tổ Huyền Quang."},
+  {t:"k",lv:"Chánh Thiện",q:"Một hướng có góc phương vị 225° là:",o:["Hướng Đông Bắc","Hướng Tây Bắc","Hướng Đông Nam","Hướng Tây Nam"],a:3,note:"Bắc 0°, Đông 90°, Nam 180°, Tây 270°; 225° nằm giữa Nam và Tây."},
+  {t:"e",lv:"Hiện tại đơn",q:"Choose the correct word: “Every morning, Santiago ___ his sheep to the field.”",o:["take","takes","taking","is take"],a:1,note:"Thói quen hằng ngày dùng hiện tại đơn; chủ ngữ số ít thêm “s”: takes."},
+  {t:"e",lv:"Hiện tại tiếp diễn",q:"Choose the correct word: “Look! The children ___ under the Bodhi tree.”",o:["sit","sits","are sitting","sat"],a:2,note:"“Look!” báo hiệu hành động đang diễn ra; chủ ngữ số nhiều dùng “are sitting”."},
+  {t:"e",lv:"Quá khứ đơn",q:"Choose the correct word: “Last year, Santiago ___ to Egypt to find his treasure.”",o:["go","goes","went","going"],a:2,note:"“Last year” báo hiệu quá khứ đơn; quá khứ của “go” là “went”."},
+  {t:"e",lv:"So sánh hơn",q:"Choose the correct word: “The desert is ___ than the oasis.”",o:["hot","hotter","hottest","more hot"],a:1,note:"Tính từ ngắn + “-er” + than; “hot” gấp đôi “t”: hotter."},
+  {t:"e",lv:"Tương lai đơn",q:"Choose the correct word: “Tomorrow, our team ___ visit Thiền Viện Bồ Đề.”",o:["will","is","did","was"],a:0,note:"“Tomorrow” báo hiệu tương lai đơn: will + động từ nguyên mẫu."}
+];
+const L = ["A","B","C","D"], TYPE = {p:"Phật pháp",k:"Kỹ năng",e:"English"};
+const label = i => i < 20 ? String(i + 1) : "E" + (i - 19);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $ = id => document.getElementById(id);
+const KEY = "dctt-quiz-draft";
+let state = {name:"", team:"", answers:{}, startedAt:0};
+
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+function clearDraft(){ try{ localStorage.removeItem(KEY); }catch(e){} }
+
+function show(step){
+  ["stepStart","stepQuiz","stepResult"].forEach(id => $(id).hidden = id !== step);
+  window.scrollTo(0,0);
+}
+
+function renderQuiz(){
+  $("whoLine").textContent = state.name + " · " + state.team;
+  $("qList").innerHTML = Q.map((q,i) => `
+    ${i === 0 ? `<p class="section-title">Phật pháp &amp; Kỹ năng</p>` : ""}
+    ${i === 20 ? `<p class="section-title">Thư từ phương xa · Tiếng Anh</p>` : ""}
+    <article class="q" id="q${i}">
+      <div class="q-top"><span class="num">${label(i)}</span><span class="tag ${q.t}">${TYPE[q.t]} · ${q.lv}</span></div>
+      <p class="prompt" id="p${i}">${q.q}</p>
+      <fieldset class="opts" aria-labelledby="p${i}">
+        ${q.o.map((o,j) => `<label class="opt"><input type="radio" name="a${i}" id="a${i}_${j}" value="${j}" ${state.answers[i] === j ? "checked" : ""}><span class="l">${L[j]}</span><span>${o}</span></label>`).join("")}
+      </fieldset>
+    </article>`).join("");
+  updateCount();
+}
+
+function updateCount(){
+  const n = Object.keys(state.answers).length;
+  $("countLine").textContent = n + "/" + Q.length + " câu";
+  $("fill").style.width = (n / Q.length * 100) + "%";
+}
+
+function code(s){
+  let h = 2166136261;
+  for (const ch of s) { h ^= ch.codePointAt(0); h = Math.imul(h, 16777619) >>> 0; }
+  return h.toString(36).toUpperCase().padStart(7,"0").slice(-6);
+}
+
+// Mã ngắn: 25 đáp án nén thành 12 ký tự + 4 ký tự kiểm tra (gắn với tên và đội)
+const B32 = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
+function fnv(s){ let h = 2166136261; for (const ch of s){ h ^= ch.codePointAt(0); h = Math.imul(h, 16777619) >>> 0; } return h; }
+const norm = s => s.normalize("NFC").replace(/\s+/g," ").trim();
+function shortCode(name, team, picks){
+  let n = 0n; for (let i = picks.length - 1; i >= 0; i--) n = n * 5n + BigInt(picks[i]);
+  let body = ""; for (let i = 0; i < 12; i++){ body = B32[Number(n % 32n)] + body; n /= 32n; }
+  let c = fnv(norm(name) + "|" + norm(team) + "|" + body) % 1048576, chk = "";
+  for (let i = 0; i < 4; i++){ chk = B32[c % 32] + chk; c = Math.floor(c / 32); }
+  const s = body + chk;
+  return "DCTT-" + s.slice(0,4) + "-" + s.slice(4,8) + "-" + s.slice(8,12) + "-" + s.slice(12);
+}
+
+function finish(){
+  const done = Date.now();
+  let total = 0; const by = {p:[0,0],k:[0,0],e:[0,0]};
+  Q.forEach((q,i) => { by[q.t][1]++; if (state.answers[i] === q.a){ total++; by[q.t][0]++; } });
+  const mins = Math.max(1, Math.round((done - state.startedAt) / 60000));
+  const when = new Date(done).toLocaleString("vi-VN",{hour:"2-digit",minute:"2-digit",day:"2-digit",month:"2-digit",year:"numeric"});
+  const resultCode = shortCode(state.name, state.team, Q.map((_,i) => state.answers[i] === undefined ? 4 : state.answers[i]));
+  const message = `${state.name} | ${state.team} | ${resultCode}`;
+  $("scoreCard").innerHTML = `
+    <div class="eyebrow">Kết quả</div>
+    <div style="display:grid;gap:2px"><strong style="font-size:19px">${esc(state.name)}</strong><span style="color:var(--muted)">Đội: ${esc(state.team)}</span></div>
+    <div class="big">${total}<small>/${Q.length}</small></div>
+    <div class="split">
+      <div><b>${by.p[0]}/${by.p[1]}</b>Phật pháp</div>
+      <div><b>${by.k[0]}/${by.k[1]}</b>Kỹ năng</div>
+      <div><b>${by.e[0]}/${by.e[1]}</b>Tiếng Anh</div>
+    </div>
+    <div class="stamp"><span>Nộp lúc ${when} · làm trong khoảng ${mins} phút</span></div>
+    <div class="send">
+      <strong>Mã kết quả</strong>
+      <span class="code-big">${resultCode}</span>
+      <span>Bấm “Sao chép mã” rồi dán nguyên dòng dưới đây vào nhóm Zalo của đoàn.</span>
+      <textarea id="resultCode" readonly rows="2">${esc(message)}</textarea>
+      <button class="btn" type="button" id="copyCode">Sao chép mã</button>
+      <span id="copyMsg" role="status"></span>
+    </div>`;
+  $("copyCode").addEventListener("click", () => {
+    const ta = $("resultCode");
+    const done = () => $("copyMsg").textContent = "Đã sao chép. Giờ dán vào nhóm Zalo nhé.";
+    const fallback = () => { ta.focus(); ta.select(); $("copyMsg").textContent = "Mã đã được bôi đen, hãy nhấn giữ và chọn Sao chép."; };
+    try { navigator.clipboard.writeText(ta.value).then(done, fallback); } catch(e){ fallback(); }
+  });
+  $("reviewList").innerHTML = Q.map((q,i) => {
+    const pick = state.answers[i], ok = pick === q.a;
+    return `<article class="q">
+      <div class="q-top"><span class="num">${label(i)}</span><span class="verdict ${ok ? "ok" : "no"}">${ok ? "Đúng" : pick === undefined ? "Chưa trả lời" : "Chưa đúng"}</span></div>
+      <p class="prompt">${q.q}</p>
+      <div class="opts">${q.o.map((o,j) => `<div class="opt ${j === q.a ? "right" : (j === pick ? "wrong" : "")}"><span class="l">${L[j]}</span><span>${o}</span></div>`).join("")}</div>
+      <p class="note"><b>Đáp án ${L[q.a]}.</b> ${q.note}</p>
+    </article>`;
+  }).join("");
+  clearDraft();
+  show("stepResult");
+}
+
+$("startForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = $("playerName").value.trim(), team = $("teamName").value.trim();
+  if (!name || !team){ $("startErr").textContent = !name ? "Hãy điền họ và tên." : "Hãy điền tên đội."; (!name ? $("playerName") : $("teamName")).focus(); return; }
+  $("startErr").textContent = "";
+  if (state.name !== name || state.team !== team) state = {name, team, answers:{}, startedAt:Date.now()};
+  if (!state.startedAt) state.startedAt = Date.now();
+  save(); renderQuiz(); show("stepQuiz");
+});
+
+$("qList").addEventListener("change", e => {
+  const m = e.target.name && e.target.name.match(/^a(\d+)$/);
+  if (!m) return;
+  const i = +m[1];
+  state.answers[i] = +e.target.value;
+  $("q" + i).classList.remove("missing");
+  $("warnBox").hidden = true;
+  updateCount(); save();
+});
+
+function missing(){ return Q.map((_,i) => i).filter(i => state.answers[i] === undefined); }
+
+$("quizForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const miss = missing();
+  if (miss.length){
+    miss.forEach(i => $("q" + i).classList.add("missing"));
+    $("warnText").textContent = `Còn ${miss.length} câu chưa chọn đáp án: ${miss.map(label).join(", ")}.`;
+    $("warnBox").hidden = false;
+    return;
+  }
+  finish();
+});
+$("goMissing").addEventListener("click", () => { const m = missing(); if (m.length) $("q" + m[0]).scrollIntoView({behavior:"smooth",block:"center"}); });
+$("submitAnyway").addEventListener("click", finish);
+$("restart").addEventListener("click", () => {
+  state = {name:"", team:"", answers:{}, startedAt:0};
+  $("playerName").value = ""; $("teamName").value = "";
+  clearDraft(); show("stepStart");
+});
+
+// Khôi phục bài đang làm dở trên cùng máy
+try{
+  const d = JSON.parse(localStorage.getItem(KEY) || "null");
+  if (d && d.name && d.team){ state = d; $("playerName").value = d.name; $("teamName").value = d.team; }
+}catch(e){}
+</script>
+
+</body></html>
