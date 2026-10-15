@@ -211,10 +211,23 @@
   }
   #matthu.mo {
     display: flex;
+    flex-direction: column;
+    gap: 14px;
     background: rgba(8, 26, 36, .93);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
+  #matthu-bando { display: block; cursor: pointer; }
+  .matthu-chi-dan {
+    margin: 0;
+    text-align: center;
+    color: rgba(247,242,231,.82);
+    font-size: .92rem;
+    letter-spacing: .02em;
+    opacity: 0;
+    transition: opacity .4s ease .55s;
+  }
+  #matthu.mo .matthu-chi-dan { opacity: 1; }
   #matthu-khung {
     margin: 0;
     position: relative;
@@ -225,7 +238,7 @@
   #matthu-khung img {
     display: block;
     max-width: 94vw;
-    max-height: 90vh;
+    max-height: 82vh;
     width: auto;
     height: auto;
   }
@@ -306,11 +319,14 @@
 <div id="matthu" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Mật thư">
   <button id="matthu-dong" type="button" aria-label="Đóng mật thư">&times;</button>
   <figure id="matthu-khung">
-    <picture>
-      <source media="(orientation: portrait)" srcset="anh/matthu-doc.jpg">
-      <img src="anh/matthu-ngang.jpg" alt="Mật thư: chỉ dẫn điểm hẹn cho chặng tiếp theo">
-    </picture>
+    <a id="matthu-bando" href="#" target="_blank" rel="noopener noreferrer" aria-label="Mở Google Maps chỉ đường đến điểm tập trung">
+      <picture>
+        <source media="(orientation: portrait)" srcset="anh/matthu-doc.jpg">
+        <img src="anh/matthu-ngang.jpg" alt="Mật thư: chỉ dẫn điểm hẹn cho chặng tiếp theo">
+      </picture>
+    </a>
   </figure>
+  <p class="matthu-chi-dan">Bấm vào ảnh để mở chỉ đường trên Google Maps</p>
 </div>
 
 <script>
@@ -322,6 +338,9 @@ const CAI_DAT = {
 
   // ── Chữ trên nút (bấm nút để "hô biến" hiện tấm mật thư)
   CTA_TEXT: 'Nhận dấu hiệu',
+
+  // ── Link Google Maps mở ra khi bấm vào tấm mật thư (điểm tập trung)
+  BAN_DO_URL: 'https://maps.app.goo.gl/scRVrJKZu6SwMDw99?g_st=iz',
 
   // ── Câu dẫn phía trên nút
   CTA_CAU: 'Mọi hành trình đều bắt đầu từ một điểm hẹn. Dấu hiệu đầu tiên đang chờ bạn.',
@@ -365,6 +384,7 @@ document.querySelector('#cua .cau').textContent = CAI_DAT.CTA_CAU;
 // Bấm nút không chuyển trang nữa — "hô biến" hiện tấm mật thư
 const matThu     = document.getElementById('matthu');
 const dongMatThu = document.getElementById('matthu-dong');
+document.getElementById('matthu-bando').href = CAI_DAT.BAN_DO_URL;  // bấm ảnh → mở Google Maps
 function moMatThu(e){
   if (e) e.preventDefault();
   matThu.classList.add('mo');
