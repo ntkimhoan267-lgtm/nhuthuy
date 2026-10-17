@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Hành Trình Tìm Lại Chính Mình</title>
+<meta name="description" content="Bức mật thư đang bốc cháy… Chỉ ai tìm ra chìa khóa mới cứu được nó. 🔥💧">
+
+<!-- Thẻ xem trước khi chia sẻ link (Zalo, Facebook, Messenger…) -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Gia Đình Phật Tử Thuận An">
+<meta property="og:title" content="Hành Trình Tìm Lại Chính Mình">
+<meta property="og:description" content="Bức mật thư đang bốc cháy… Chỉ ai tìm ra chìa khóa mới cứu được nó. 🔥💧">
+<meta property="og:url" content="https://gdptthuanan.com/timlaichinhminh">
+<meta property="og:image" content="https://gdptthuanan.com/anh/timlaichinhminh-og.jpg">
+<meta property="og:image:secure_url" content="https://gdptthuanan.com/anh/timlaichinhminh-og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Bức mật thư đang bốc cháy">
+<meta property="og:locale" content="vi_VN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hành Trình Tìm Lại Chính Mình">
+<meta name="twitter:description" content="Bức mật thư đang bốc cháy… Chỉ ai tìm ra chìa khóa mới cứu được nó. 🔥💧">
+<meta name="twitter:image" content="https://gdptthuanan.com/anh/timlaichinhminh-og.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     MẬT THƯ LỬA — Hành trình tìm lại chính mình
+     Tờ giấy đang cháy. Vẽ đúng chìa khóa (hai hình zic-zắc xếp
+     chồng — ký hiệu của nước) thì nước dội xuống, lửa tắt và
+     mật thư hiện ra như mực tàng hình gặp nước.
+     ============================================================ */
+
+  :root {
+    --dem:  #0b0604;   /* nền đêm */
+    --muc:  #3a2210;   /* mực nâu trên giấy */
+    --sen:  #F7F2E7;   /* trắng ngà */
+    --nhu:  #C9A96A;   /* nhũ vàng */
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: var(--dem);
+    color: var(--sen);
+    font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body { background: radial-gradient(ellipse at 50% 62%, #2a1408 0%, #120804 45%, #050302 100%); }
+
+  #san {
+    position: fixed;
+    inset: 0;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  #san.xong { touch-action: auto; }   /* giải xong: cho phép phóng to để đọc */
+  #san.rung { animation: rung .45s ease; }
+  @keyframes rung {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-7px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(2px); }
+  }
+
+  #san canvas { position: absolute; inset: 0; display: block; }
+  #nen { z-index: 1; }                          /* tờ giấy */
+  #lua { z-index: 3; pointer-events: none; }    /* lửa, khói, nước */
+  #ve  { z-index: 4; cursor: crosshair; }       /* nét vẽ chìa khóa */
+  #san.xong #ve { display: none; }
+
+  /* --- Phần chữ / mật thư nằm trên tờ giấy (vị trí do JS đặt) --- */
+  #giay { position: absolute; z-index: 2; pointer-events: none; }
+  #san.xong #giay { pointer-events: auto; }
+
+  #chu-giay {
+    position: absolute;
+    left: 9%; right: 9%; top: 13%;
+    text-align: center;
+    color: var(--muc);
+    transition: opacity 1.2s ease;
+  }
+  #chu-giay .tieu-de {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(.8rem, 3.2vmin, 1.25rem);
+    letter-spacing: .34em;
+    text-transform: uppercase;
+    opacity: .72;
+  }
+  #chu-giay .gach {
+    width: 42%; height: 1px;
+    margin: .8em auto .9em;
+    background: linear-gradient(90deg, transparent, rgba(58,34,16,.55), transparent);
+  }
+  #chu-giay .goi-y {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.15rem, 4.6vmin, 2.1rem);
+    line-height: 1.35;
+  }
+
+  /* Vệt giấy ướt khi nước dội xuống */
+  #uot {
+    position: absolute; inset: 0;
+    opacity: 0;
+    transition: opacity 1.6s ease;
+    background:
+      radial-gradient(circle at 30% 34%, rgba(70,42,15,.28), transparent 42%),
+      radial-gradient(circle at 72% 58%, rgba(70,42,15,.24), transparent 46%),
+      radial-gradient(circle at 44% 80%, rgba(70,42,15,.30), transparent 44%),
+      linear-gradient(rgba(60,38,14,.12), rgba(60,38,14,.12));
+  }
+  #uot.hien { opacity: 1; }
+
+  /* Mật thư hiện dần như mực tàng hình gặp nước */
+  #noi-dung {
+    position: absolute;
+    inset: 4.5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+  }
+  #noi-dung picture, #noi-dung img { display: block; width: 100%; height: 100%; }
+  #noi-dung img {
+    object-fit: contain;
+    border-radius: 4px;
+    filter: sepia(.9) blur(5px) contrast(.8);
+    transition: filter 2.8s ease;
+  }
+  #noi-dung.ro img { filter: none; }
+  #noi-dung .chu-tam {
+    padding: 0 6%;
+    text-align: center;
+    color: var(--muc);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.2rem, 4.8vmin, 2.2rem);
+    line-height: 1.4;
+    filter: blur(4px);
+    transition: filter 2.8s ease;
+  }
+  #noi-dung.ro .chu-tam { filter: none; }
+
+  /* --- Giao diện nổi --- */
+  #am-thanh {
+    position: fixed;
+    top: calc(14px + env(safe-area-inset-top, 0px));
+    right: 14px;
+    z-index: 10;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,169,106,.45);
+    background: rgba(20,10,5,.55);
+    color: var(--sen);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+  #am-thanh:focus-visible { outline: 2px solid var(--nhu); outline-offset: 3px; }
+
+  #huong-dan {
+    position: fixed;
+    left: 0; right: 0;
+    bottom: calc(1.4rem + env(safe-area-inset-bottom, 0px));
+    z-index: 10;
+    padding: 0 16px;
+    text-align: center;
+    font-size: .72rem;
+    font-weight: 300;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: rgba(247,242,231,.7);
+    pointer-events: none;
+    animation: thoTho 2.6s ease-in-out infinite;
+  }
+  @keyframes thoTho { 0%, 100% { opacity: .5; } 50% { opacity: .95; } }
+
+  #thong-bao {
+    position: fixed;
+    left: 50%;
+    bottom: calc(4.4rem + env(safe-area-inset-bottom, 0px));
+    z-index: 11;
+    max-width: calc(100vw - 32px);
+    padding: .6rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid rgba(201,169,106,.5);
+    background: rgba(20,10,5,.78);
+    color: var(--sen);
+    font-size: .9rem;
+    text-align: center;
+    opacity: 0;
+    transform: translate(-50%, 10px);
+    transition: opacity .35s ease, transform .35s ease;
+    pointer-events: none;
+  }
+  #thong-bao.hien { opacity: 1; transform: translate(-50%, 0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    #san.rung, #huong-dan { animation: none; }
+    #noi-dung img, #noi-dung .chu-tam, #uot, #chu-giay { transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="san">
+  <canvas id="nen"></canvas>
+  <div id="giay">
+    <div id="uot"></div>
+    <div id="chu-giay">
+      <div class="tieu-de" id="tieu-de-giay"></div>
+      <div class="gach"></div>
+      <div class="goi-y" id="goi-y"></div>
+    </div>
+    <div id="noi-dung"></div>
+  </div>
+  <canvas id="lua"></canvas>
+  <canvas id="ve"></canvas>
+</div>
+
+<button id="am-thanh" type="button"></button>
+<div id="thong-bao" role="status" aria-live="polite"></div>
+<div id="huong-dan"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   BẢNG ĐIỀU CHỈNH — sửa ở đây, không cần đụng vào code dưới
+   ══════════════════════════════════════════════════════════ */
+
+const CAI_DAT = {
+
+  // ── Chữ nhỏ ở đầu tờ giấy
+  TIEU_DE_GIAY: 'Mật thư',
+
+  // ── Câu gợi ý hiện trên tờ giấy đang cháy (dùng <br> để xuống dòng)
+  GOI_Y: 'Lửa đang thiêu rụi bức thư…<br>Ai sẽ là người cứu được nó?',
+
+  // ── Dòng hướng dẫn nhỏ ở cuối màn hình
+  HUONG_DAN: 'Dùng ngón tay vẽ chìa khóa lên tờ giấy',
+  HUONG_DAN_SAU: 'Mật thư đã hiện ra — giải mã cùng đồng đội nhé',
+
+  // ── Thông báo khi vẽ sai / vẽ đúng
+  BAO_SAI: 'Lửa vẫn cháy… thử lại nhé!',
+  BAO_DUNG: 'Nước đã dập tắt ngọn lửa!',
+
+  // ── Hình mật thư hiện ra sau khi dập lửa.
+  //    Để trống '' nếu chưa có hình (sẽ hiện dòng MAT_THU_TAM).
+  //    Có một hình thì điền vào cả hai ô.
+  MAT_THU_DOC:   '',   // hình dọc cho điện thoại, ví dụ '../anh/matthu-lua-doc.jpg'
+  MAT_THU_NGANG: '',   // hình ngang cho máy tính, ví dụ '../anh/matthu-lua-ngang.jpg'
+  MAT_THU_TAM: 'Nội dung mật thư sẽ hiện ở đây',
+
+  // ── Bật âm thanh sẵn (tiếng chỉ phát sau lần chạm đầu tiên — luật của trình duyệt)
+  AM_THANH: true,
+};
+
+/* ══════════════════════════════════════════════════════════
+   TỪ ĐÂY TRỞ XUỐNG LÀ PHẦN CHẠY MÁY
+   ══════════════════════════════════════════════════════════ */
+
+const $ = id => document.getElementById(id);
+const san = $('san'), giay = $('giay'), chuGiay = $('chu-giay'), uot = $('uot'), noiDung = $('noi-dung');
+const cNen = $('nen'), cLua = $('lua'), cVe = $('ve');
+const xNen = cNen.getContext('2d'), xLua = cLua.getContext('2d'), xVe = cVe.getContext('2d');
+const nutAm = $('am-thanh'), thongBao = $('thong-bao'), huongDan = $('huong-dan');
+
+$('tieu-de-giay').textContent = CAI_DAT.TIEU_DE_GIAY;
+$('goi-y').innerHTML = CAI_DAT.GOI_Y;
+huongDan.textContent = CAI_DAT.HUONG_DAN;
+
+const giamChuyenDong = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const ngau = (a, b) => a + Math.random() * (b - a);
+
+let W = 0, H = 0, dpr = 1;
+let trangThai = 'chay';          // 'chay' → 'dap' → 'hien'
+let gx = 0, gy = 0, gw = 0, gh = 0, sc = 1;
+let vien = [], duongVien = null, duongDay = null, diemLua = [];
+
+/* ── Tỉ lệ tờ giấy: theo hình mật thư nếu có, mặc định giống khổ ảnh 941×1672 ── */
+const tiLe = { doc: 941 / 1672, ngang: 1672 / 941 };
+function napTiLe(src, khoa) {
+  if (!src) return;
+  const im = new Image();
+  im.onload = () => { tiLe[khoa] = im.naturalWidth / im.naturalHeight; boCuc(); };
+  im.src = src;
+}
+napTiLe(CAI_DAT.MAT_THU_DOC || CAI_DAT.MAT_THU_NGANG, 'doc');
+napTiLe(CAI_DAT.MAT_THU_NGANG || CAI_DAT.MAT_THU_DOC, 'ngang');
+
+/* ── Nội dung mật thư (ẩn cho tới khi dập lửa) ── */
+(function dungNoiDung() {
+  const doc = CAI_DAT.MAT_THU_DOC || CAI_DAT.MAT_THU_NGANG;
+  const ngang = CAI_DAT.MAT_THU_NGANG || CAI_DAT.MAT_THU_DOC;
+  if (doc) {
+    noiDung.innerHTML =
+      `<picture><source media="(orientation: portrait)" srcset="${doc}">` +
+      `<img src="${ngang}" alt="Mật thư"></picture>`;
+  } else {
+    const d = document.createElement('div');
+    d.className = 'chu-tam';
+    d.textContent = CAI_DAT.MAT_THU_TAM;
+    noiDung.appendChild(d);
+  }
+})();
+
+/* ════════════ TỜ GIẤY ════════════ */
+
+function boCuc() {
+  dpr = Math.min(window.devicePixelRatio || 1, 2);
+  W = window.innerWidth; H = window.innerHeight;
+  for (const c of [cNen, cLua, cVe]) {
+    c.width = W * dpr; c.height = H * dpr;
+    c.style.width = W + 'px'; c.style.height = H + 'px';
+    c.getContext('2d').setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  const ar = H >= W ? tiLe.doc : tiLe.ngang;
+  const maxW = W * 0.9, maxH = Math.min(H * 0.84, H - 150);
+  gw = Math.min(maxW, maxH * ar);
+  gh = gw / ar;
+  gx = (W - gw) / 2;
+  gy = (H - gh) / 2 - 4;
+  sc = Math.max(0.6, Math.min(1.6, Math.min(gw, gh * 0.9) / 420));
+
+  giay.style.left = gx + 'px'; giay.style.top = gy + 'px';
+  giay.style.width = gw + 'px'; giay.style.height = gh + 'px';
+
+  taoVien();
+  veGiay();
+  veLaiNet(1);
+}
+
+/* Sóng nhiễu mượt để mép giấy cháy trông tự nhiên */
+function taoNhieu() {
+  const f = [ngau(.010, .018), ngau(.03, .05), ngau(.08, .12)];
+  const p = [ngau(0, 6.3), ngau(0, 6.3), ngau(0, 6.3)];
+  return t => .5 + .25 * Math.sin(t * f[0] + p[0]) + .15 * Math.sin(t * f[1] + p[1]) + .1 * Math.sin(t * f[2] + p[2]);
+}
+
+/* Mép giấy răng cưa, bị lửa ăn sâu ở đáy và hai bên phía dưới.
+   Đi dọc chu vi một hình chữ nhật bo góc, mỗi điểm lùi vào trong
+   một khoảng theo sóng nhiễu + các "miếng cháy" khoét sâu. */
+function taoVien() {
+  const n = taoNhieu(), n2 = taoNhieu();
+  const buoc = 6;
+  const R = Math.min(30 * sc, gw * .08, gh * .08);
+  const L = gx, T = gy, P = gx + gw, B = gy + gh;
+  const thang = (x0, y0, x1, y1, nx, ny) => ({ x0, y0, x1, y1, nx, ny, dai: Math.hypot(x1 - x0, y1 - y0) });
+  const cung = (cx, cy, a0) => ({ cx, cy, a0, dai: R * Math.PI / 2 });
+  // Theo chiều kim đồng hồ, bắt đầu từ cạnh trên
+  const doan = [
+    thang(L + R, T, P - R, T, 0, 1),  cung(P - R, T + R, -Math.PI / 2),
+    thang(P, T + R, P, B - R, -1, 0), cung(P - R, B - R, 0),
+    thang(P - R, B, L + R, B, 0, -1), cung(L + R, B - R, Math.PI / 2),
+    thang(L, B - R, L, T + R, 1, 0),  cung(L + R, T + R, Math.PI),
+  ];
+  let u = 0;
+  for (const d of doan) { d.u0 = u; u += d.dai; }
+  const [, , phai, , day, , trai] = doan;
+
+  // Các "miếng cháy" khoét sâu, đặt theo vị trí trên chu vi
+  const vet = [];
+  for (let i = 0; i < 5; i++) vet.push({ u: day.u0 + ngau(.05, .95) * day.dai, sau: ngau(14, 34) * sc, rong: ngau(28, 60) * sc });
+  vet.push({ u: phai.u0 + ngau(.6, .95) * phai.dai, sau: ngau(10, 22) * sc, rong: ngau(24, 46) * sc });
+  vet.push({ u: trai.u0 + ngau(.05, .4) * trai.dai, sau: ngau(10, 22) * sc, rong: ngau(24, 46) * sc });
+  const sauVet = uu => vet.reduce((s, v) => { const k = (uu - v.u) / v.rong; return s + v.sau * Math.exp(-k * k); }, 0);
+
+  vien = []; diemLua = [];
+  for (const d of doan) {
+    for (let t = 0; t < d.dai; t += buoc) {
+      let x, y, nx, ny;
+      if (d.cx === undefined) {
+        const k = t / d.dai;
+        x = d.x0 + (d.x1 - d.x0) * k; y = d.y0 + (d.y1 - d.y0) * k; nx = d.nx; ny = d.ny;
+      } else {
+        const a = d.a0 + t / R;
+        x = d.cx + R * Math.cos(a); y = d.cy + R * Math.sin(a); nx = -Math.cos(a); ny = -Math.sin(a);
+      }
+      const uu = d.u0 + t;
+      const chay = Math.max(0, Math.min(1, (y - (T + gh * .55)) / (gh * .45)));   // 0 ở trên → 1 ở đáy
+      const s = (2 + 7 * n(uu)) * sc + chay * (6 + 16 * n2(uu)) * sc + sauVet(uu);
+      const px = x + nx * s, py = y + ny * s;
+      vien.push([px, py]);
+      const soDiem = d === day ? 4 : Math.round(3.5 * chay * chay);   // càng cháy mạnh càng nhiều chỗ bắt lửa
+      for (let k = 0; k < soDiem; k++) diemLua.push([px, py]);
+    }
+  }
+
+  duongVien = new Path2D();
+  vien.forEach(([x, y], i) => i ? duongVien.lineTo(x, y) : duongVien.moveTo(x, y));
+  duongVien.closePath();
+
+  // Đoạn mép dưới (đang cháy rực) để vẽ viền than hồng
+  duongDay = new Path2D();
+  let dangVe = false;
+  for (const [x, y] of vien) {
+    if (y > gy + gh * .6) { dangVe ? duongDay.lineTo(x, y) : duongDay.moveTo(x, y); dangVe = true; }
+    else dangVe = false;
+  }
+
+  // Cắt phần chữ / mật thư theo đúng hình tờ giấy
+  const cat = 'polygon(' + vien.map(([x, y]) => `${(x - gx).toFixed(1)}px ${(y - gy).toFixed(1)}px`).join(',') + ')';
+  giay.style.clipPath = cat;
+  giay.style.webkitClipPath = cat;
+}
+
+let mauHat = null;
+function hatGiay() {   // vân giấy li ti
+  if (mauHat) return mauHat;
+  const c = document.createElement('canvas');
+  c.width = c.height = 160;
+  const g = c.getContext('2d');
+  const d = g.createImageData(160, 160);
+  for (let i = 0; i < d.data.length; i += 4) {
+    const v = Math.random() < .5 ? 40 : 255;
+    d.data[i] = d.data[i + 1] = d.data[i + 2] = v;
+    d.data[i + 3] = Math.random() * 26;
+  }
+  g.putImageData(d, 0, 0);
+  return (mauHat = c);
+}
+
+function veGiay() {
+  const x = xNen;
+  x.clearRect(0, 0, W, H);
+
+  // Bóng đổ dưới tờ giấy
+  x.save();
+  x.shadowColor = 'rgba(0,0,0,.65)';
+  x.shadowBlur = 40;
+  x.shadowOffsetY = 10;
+  x.fillStyle = '#2a1a0c';
+  x.fill(duongVien);
+  x.restore();
+
+  x.save();
+  x.clip(duongVien);
+
+  // Nền giấy da
+  const nen = x.createLinearGradient(gx, gy, gx + gw, gy + gh);
+  nen.addColorStop(0, '#eedfba');
+  nen.addColorStop(.5, '#e4cf9f');
+  nen.addColorStop(1, '#d4b680');
+  x.fillStyle = nen;
+  x.fillRect(gx, gy, gw, gh);
+
+  // Vết ố
+  for (let i = 0; i < 26; i++) {
+    const cx = ngau(gx, gx + gw), cy = ngau(gy, gy + gh), r = ngau(20, 90) * sc;
+    const g = x.createRadialGradient(cx, cy, 0, cx, cy, r);
+    g.addColorStop(0, `rgba(150,105,55,${ngau(.06, .14)})`);
+    g.addColorStop(1, 'rgba(150,105,55,0)');
+    x.fillStyle = g;
+    x.fillRect(cx - r, cy - r, r * 2, r * 2);
+  }
+
+  // Vân giấy
+  x.globalAlpha = .55;
+  x.fillStyle = x.createPattern(hatGiay(), 'repeat');
+  x.fillRect(gx, gy, gw, gh);
+  x.globalAlpha = 1;
+
+  // Tối dần ra mép
+  const vg = x.createRadialGradient(gx + gw / 2, gy + gh / 2, Math.min(gw, gh) * .3, gx + gw / 2, gy + gh / 2, Math.max(gw, gh) * .7);
+  vg.addColorStop(0, 'rgba(90,55,20,0)');
+  vg.addColorStop(1, 'rgba(90,55,20,.32)');
+  x.fillStyle = vg;
+  x.fillRect(gx, gy, gw, gh);
+
+  // Đáy giấy cháy sém
+  const day = x.createLinearGradient(0, gy + gh, 0, gy + gh * .68);
+  day.addColorStop(0, 'rgba(20,10,2,.6)');
+  day.addColorStop(1, 'rgba(20,10,2,0)');
+  x.fillStyle = day;
+  x.fillRect(gx, gy, gw, gh);
+
+  // Dải cháy sém dọc mép: nhiều lớp mỏng chồng lên, đậm dần sát mép
+  x.lineJoin = 'round';
+  if ('filter' in x) x.filter = `blur(${(3 * sc).toFixed(1)}px)`;
+  const lop = 18;
+  for (let i = 0; i < lop; i++) {
+    const k = i / (lop - 1);                       // 0: lớp rộng nhất → 1: sát mép
+    x.lineWidth = (100 - 94 * Math.pow(k, .7)) * sc;
+    x.strokeStyle = `rgba(${120 - 105 * k | 0},${70 - 62 * k | 0},${25 - 22 * k | 0},${(.035 + .42 * Math.pow(k, 2.2)).toFixed(3)})`;
+    x.stroke(duongVien);
+  }
+  if ('filter' in x) x.filter = 'none';
+
+  x.restore();
+}
+
+/* ════════════ LỬA, KHÓI, NƯỚC ════════════ */
+
+function taoSprite(stops) {
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d');
+  const gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  stops.forEach(([o, col]) => gr.addColorStop(o, col));
+  g.fillStyle = gr;
+  g.fillRect(0, 0, 64, 64);
+  return c;
+}
+const sprVang = taoSprite([[0, 'rgba(255,250,220,1)'], [.25, 'rgba(255,220,120,.9)'], [.6, 'rgba(255,150,40,.35)'], [1, 'rgba(255,120,0,0)']]);
+const sprCam  = taoSprite([[0, 'rgba(255,200,100,.95)'], [.35, 'rgba(255,120,30,.7)'], [1, 'rgba(200,50,0,0)']]);
+const sprDo   = taoSprite([[0, 'rgba(220,80,20,.7)'], [.5, 'rgba(150,30,5,.35)'], [1, 'rgba(80,10,0,0)']]);
+const sprKhoi = taoSprite([[0, 'rgba(60,55,50,.5)'], [1, 'rgba(40,38,35,0)']]);
+const sprHoi  = taoSprite([[0, 'rgba(235,240,245,.55)'], [1, 'rgba(220,228,235,0)']]);
+
+const lua = [], tan = [], khoi = [], giot = [], gon = [];
+let mucLua = 1;          // độ lớn ngọn lửa (1 = bình thường)
+let bungLua = 0;         // lửa bùng lên khi vẽ sai
+let tDap = 0, last = performance.now(), dungVongLap = 0;
+const tranLua = giamChuyenDong ? 500 : 1800;
+
+function sinhLua(dt) {
+  if (!diemLua.length) return;
+  const muc = mucLua + bungLua;
+  const so = Math.round(diemLua.length / 4 * .17 * muc * dt * (giamChuyenDong ? .5 : 1));
+  for (let i = 0; i < so && lua.length < tranLua; i++) {
+    const [x, y] = diemLua[(Math.random() * diemLua.length) | 0];
+    lua.push({
+      x: x + ngau(-3, 3), y: y + ngau(0, 6),
+      vx: ngau(-.25, .25) * sc, vy: -ngau(1.8, 3.8) * sc * (1 + bungLua * .4),
+      t: 0, max: ngau(30, 60), s: ngau(26, 52) * sc * (1 + bungLua * .3), pha: ngau(0, 6),
+    });
+  }
+  if (Math.random() < .45 * muc * dt) {
+    const [x, y] = diemLua[(Math.random() * diemLua.length) | 0];
+    tan.push({ x, y, vx: ngau(-.6, .6), vy: -ngau(1.5, 4), t: 0, max: ngau(60, 140), s: ngau(1.1, 2.6), pha: ngau(0, 6) });
+  }
+  if (Math.random() < .25 * muc * dt) {
+    const [x, y] = diemLua[(Math.random() * diemLua.length) | 0];
+    khoi.push({ x, y: y - 40 * sc, vx: ngau(-.2, .2), vy: -ngau(.6, 1.2) * sc, t: 0, max: ngau(90, 160), s: ngau(24, 44) * sc, spr: sprKhoi, a: .08 });
+  }
+}
+
+function sinhHoiNuoc(n) {
+  for (let i = 0; i < n; i++) {
+    const [x, y] = diemLua.length ? diemLua[(Math.random() * diemLua.length) | 0] : [W / 2, H / 2];
+    khoi.push({ x, y, vx: ngau(-.5, .5), vy: -ngau(1.2, 2.6) * sc, t: 0, max: ngau(60, 110), s: ngau(20, 40) * sc, spr: sprHoi, a: .28 });
+  }
+}
+
+function sinhMua(n) {
+  for (let i = 0; i < n; i++) {
+    giot.push({
+      x: ngau(gx, gx + gw), y: gy - ngau(20, 160),
+      vy: ngau(16, 24) * sc, dai: ngau(10, 20) * sc,
+      dich: gy + ngau(.05, 1) * gh,
+    });
+  }
+}
+
+function capNhatVaVe(now) {
+  const dt = Math.min(3, (now - last) / 16.67);
+  last = now;
+  const x = xLua;
+  x.clearRect(0, 0, W, H);
+
+  // Lửa tắt dần khi đang dập
+  if (trangThai !== 'chay') mucLua = Math.max(0, mucLua - .022 * dt);
+  bungLua = Math.max(0, bungLua - .02 * dt);
+  const nhay = .5 + .5 * Math.sin(now * .013) * Math.sin(now * .0071 + 1.3);
+  const muc = mucLua + bungLua;
+
+  if (muc > .02) sinhLua(dt);
+
+  // Ánh lửa hắt lên tờ giấy
+  if (muc > .01) {
+    x.globalCompositeOperation = 'lighter';
+    const r = Math.max(gw, gh) * .9;
+    const g = x.createRadialGradient(gx + gw / 2, gy + gh, 0, gx + gw / 2, gy + gh, r);
+    g.addColorStop(0, `rgba(255,110,30,${(.12 + .06 * nhay) * Math.min(1, muc)})`);
+    g.addColorStop(1, 'rgba(255,110,30,0)');
+    x.fillStyle = g;
+    x.fillRect(0, 0, W, H);
+
+    // Viền than hồng quanh mép giấy
+    x.lineJoin = 'round';
+    x.shadowColor = 'rgba(255,90,0,.9)';
+    x.shadowBlur = 12;
+    x.strokeStyle = `rgba(255,${110 + nhay * 60 | 0},25,${(.3 + .25 * nhay) * Math.min(1, muc)})`;
+    x.lineWidth = 2;
+    x.stroke(duongVien);
+    x.strokeStyle = `rgba(255,${150 + nhay * 70 | 0},40,${(.55 + .3 * nhay) * Math.min(1, muc)})`;
+    x.lineWidth = 3.5;
+    x.stroke(duongDay);
+    x.shadowBlur = 0;
+  }
+
+  // Khói / hơi nước
+  x.globalCompositeOperation = 'source-over';
+  for (let i = khoi.length - 1; i >= 0; i--) {
+    const p = khoi[i];
+    p.t += dt;
+    if (p.t >= p.max) { khoi.splice(i, 1); continue; }
+    p.x += p.vx * dt; p.y += p.vy * dt;
+    const k = p.t / p.max, s = p.s * (1 + k * 1.8);
+    x.globalAlpha = p.a * Math.sin(Math.PI * k);
+    x.drawImage(p.spr, p.x - s / 2, p.y - s / 2, s, s);
+  }
+
+  // Ngọn lửa
+  x.globalCompositeOperation = 'lighter';
+  for (let i = lua.length - 1; i >= 0; i--) {
+    const p = lua[i];
+    p.t += dt * (trangThai === 'chay' ? 1 : 1.8);
+    if (p.t >= p.max) { lua.splice(i, 1); continue; }
+    p.x += (p.vx + Math.sin(p.t * .2 + p.pha) * .3 * sc) * dt;
+    p.y += p.vy * dt;
+    p.vy -= .02 * sc * dt;
+    // Hạt lửa kéo dài theo chiều dọc để thành lưỡi lửa, nhỏ dần khi bốc lên
+    const k = p.t / p.max, s = p.s * (1 - k * .85), sw = s * .75, sh = s * 1.3;
+    x.globalAlpha = (k < .12 ? k / .12 : 1 - (k - .12) / .88) * .4;
+    x.drawImage(k < .3 ? sprVang : k < .65 ? sprCam : sprDo, p.x - sw / 2, p.y - sh / 2, sw, sh);
+  }
+
+  // Tàn lửa bay
+  for (let i = tan.length - 1; i >= 0; i--) {
+    const p = tan[i];
+    p.t += dt;
+    if (p.t >= p.max) { tan.splice(i, 1); continue; }
+    p.x += (p.vx + Math.sin(p.t * .07 + p.pha) * .6) * dt;
+    p.y += p.vy * dt;
+    const k = p.t / p.max;
+    x.globalAlpha = (1 - k) * (.6 + .4 * Math.sin(p.t * .5 + p.pha));
+    x.fillStyle = 'rgb(255,200,120)';
+    x.fillRect(p.x, p.y, p.s, p.s);
+  }
+
+  // Mưa nước dập lửa
+  x.globalCompositeOperation = 'source-over';
+  x.globalAlpha = 1;
+  x.lineCap = 'round';
+  x.strokeStyle = 'rgba(185,225,255,.85)';
+  x.lineWidth = 2 * sc;
+  for (let i = giot.length - 1; i >= 0; i--) {
+    const p = giot[i];
+    p.y += p.vy * dt;
+    if (p.y >= p.dich) {
+      giot.splice(i, 1);
+      gon.push({ x: p.x, y: p.dich, r: 0, max: ngau(14, 36) * sc, a: .7 });
+      continue;
+    }
+    x.beginPath();
+    x.moveTo(p.x, p.y - p.dai);
+    x.lineTo(p.x, p.y);
+    x.stroke();
+  }
+  // Gợn nước loang trên giấy
+  x.lineWidth = 1.5;
+  for (let i = gon.length - 1; i >= 0; i--) {
+    const p = gon[i];
+    p.r += 1.4 * sc * dt;
+    p.a -= .025 * dt;
+    if (p.a <= 0 || p.r >= p.max) { gon.splice(i, 1); continue; }
+    x.strokeStyle = `rgba(190,228,255,${p.a})`;
+    x.beginPath();
+    x.ellipse(p.x, p.y, p.r, p.r * .45, 0, 0, Math.PI * 2);
+    x.stroke();
+  }
+  x.globalAlpha = 1;
+
+  // Kịch bản dập lửa
+  if (trangThai !== 'chay') {
+    const t = now - tDap;
+    if (t < 1300) sinhMua(Math.round(7 * dt));
+    if (t > 250 && t < 2300) sinhHoiNuoc(Math.random() < .7 * dt ? 2 : 0);
+  }
+
+  // Giải xong và mọi thứ đã lắng → dừng vòng lặp cho đỡ tốn pin
+  if (trangThai === 'hien' && !lua.length && !tan.length && !khoi.length && !giot.length && !gon.length && now > dungVongLap) {
+    x.clearRect(0, 0, W, H);
+    return;
+  }
+  requestAnimationFrame(capNhatVaVe);
+}
+
+/* ════════════ VẼ CHÌA KHÓA ════════════ */
+
+let net = [];            // các nét đã vẽ: mỗi nét là mảng {x, y}
+let netDangVe = null;
+let henGio = null, daChoMot = false;
+
+function veDoan(a, b, alpha) {
+  const x = xVe;
+  x.lineCap = 'round'; x.lineJoin = 'round';
+  x.strokeStyle = `rgba(120,190,255,${.28 * alpha})`;
+  x.lineWidth = 12;
+  x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke();
+  x.strokeStyle = `rgba(225,242,255,${.95 * alpha})`;
+  x.lineWidth = 3.5;
+  x.beginPath(); x.moveTo(a.x, a.y); x.lineTo(b.x, b.y); x.stroke();
+}
+function veLaiNet(alpha) {
+  xVe.clearRect(0, 0, W, H);
+  if (alpha <= 0) return;
+  for (const s of net.concat(netDangVe ? [netDangVe] : []))
+    for (let i = 1; i < s.length; i++) veDoan(s[i - 1], s[i], alpha);
+}
+function moDanNet(xong) {
+  const t0 = performance.now();
+  (function buoc(now) {
+    const k = Math.min(1, (now - t0) / 500);
+    veLaiNet(1 - k);
+    if (k < 1) requestAnimationFrame(buoc); else { xVe.clearRect(0, 0, W, H); xong && xong(); }
+  })(t0);
+}
+
+cVe.addEventListener('pointerdown', e => {
+  if (trangThai !== 'chay') return;
+  e.preventDefault();
+  AmThanh.khoiDong();
+  clearTimeout(henGio);
+  cVe.setPointerCapture(e.pointerId);
+  netDangVe = [{ x: e.clientX, y: e.clientY }];
+});
+cVe.addEventListener('pointermove', e => {
+  if (!netDangVe) return;
+  const p = { x: e.clientX, y: e.clientY }, q = netDangVe[netDangVe.length - 1];
+  if ((p.x - q.x) ** 2 + (p.y - q.y) ** 2 < 4) return;
+  netDangVe.push(p);
+  veDoan(q, p, 1);
+});
+function ketThucNet() {
+  if (!netDangVe) return;
+  net.push(netDangVe);
+  netDangVe = null;
+  clearTimeout(henGio);
+  henGio = setTimeout(danhGia, 1200);
+}
+cVe.addEventListener('pointerup', ketThucNet);
+cVe.addEventListener('pointercancel', ketThucNet);
+
+function danhGia() {
+  if (trangThai !== 'chay') return;
+  const kq = nhanDien(net);
+  if (kq === 'dung') {
+    trangThai = 'dap';
+    moDanNet();
+    batDauDap();
+  } else if (kq === 'mot' && !daChoMot) {
+    daChoMot = true;                       // mới vẽ một hình — chờ thêm hình thứ hai
+    henGio = setTimeout(danhGia, 3500);
+  } else {
+    daChoMot = false;
+    const cu = net; net = [];
+    for (const s of cu) for (let i = 0; i < s.length; i += 6)
+      khoi.push({ x: s[i].x, y: s[i].y, vx: ngau(-.3, .3), vy: -ngau(.6, 1.4), t: 0, max: ngau(40, 70), s: ngau(14, 26) * sc, spr: sprHoi, a: .22 });
+    moDanNet();
+    baoSai();
+  }
+}
+
+/* ── Nhận diện chìa khóa ──
+   Đúng khi có ít nhất HAI nét zic-zắc (W, M, N, И…) xếp chồng lên nhau
+   (trên – dưới hoặc đè lên nhau), không phải đặt cạnh nhau. Chấm dễ tính. */
+function khung(s) {
+  let l = Infinity, r = -Infinity, t = Infinity, b = -Infinity;
+  for (const p of s) { l = Math.min(l, p.x); r = Math.max(r, p.x); t = Math.min(t, p.y); b = Math.max(b, p.y); }
+  return { l, r, t, b, w: r - l, h: b - t };
+}
+function rutGon(pts, eps) {   // Ramer–Douglas–Peucker
+  if (pts.length < 3) return pts.slice();
+  const a = pts[0], b = pts[pts.length - 1];
+  const dx = b.x - a.x, dy = b.y - a.y, L = Math.hypot(dx, dy) || 1;
+  let maxD = 0, idx = 0;
+  for (let i = 1; i < pts.length - 1; i++) {
+    const d = Math.abs(dy * pts[i].x - dx * pts[i].y + b.x * a.y - b.y * a.x) / L;
+    if (d > maxD) { maxD = d; idx = i; }
+  }
+  if (maxD <= eps) return [a, b];
+  const trai = rutGon(pts.slice(0, idx + 1), eps), phai = rutGon(pts.slice(idx), eps);
+  return trai.slice(0, -1).concat(phai);
+}
+function gopNet(ds) {   // nét viết tiếp từ cuối nét trước thì gộp làm một
+  const kq = [];
+  for (const s of ds) {
+    const truoc = kq[kq.length - 1];
+    if (truoc) {
+      const k = khung(truoc), cuoi = truoc[truoc.length - 1];
+      const nguong = Math.max(14, .18 * Math.max(k.w, k.h));
+      if (Math.hypot(s[0].x - cuoi.x, s[0].y - cuoi.y) < nguong) { kq[kq.length - 1] = truoc.concat(s); continue; }
+    }
+    kq.push(s.slice());
+  }
+  return kq;
+}
+function laZicZac(s) {
+  const k = khung(s);
+  if (k.h < 18) return null;
+  const p = rutGon(s, Math.max(3, .07 * Math.max(k.w, k.h)));
+  // Gom các đoạn liên tiếp cùng chiều lên/xuống
+  let doan = [];
+  const themDoan = (dau, dy) => {
+    const cuoi = doan[doan.length - 1];
+    if (cuoi && cuoi.dau === dau) cuoi.dy += dy; else doan.push({ dau, dy });
+  };
+  let tongDx = 0, nguoc = 0;
+  const net_dx = p[p.length - 1].x - p[0].x, huong = Math.sign(net_dx);
+  for (let i = 1; i < p.length; i++) {
+    const dx = p[i].x - p[i - 1].x, dy = p[i].y - p[i - 1].y;
+    tongDx += Math.abs(dx);
+    if (Math.sign(dx) === -huong && Math.abs(dx) > 1) nguoc += Math.abs(dx);
+    if (Math.abs(dy) > .5) themDoan(Math.sign(dy), Math.abs(dy));
+  }
+  // Bỏ các nhịp lên/xuống quá nhỏ rồi gom lại lần nữa
+  const lon = doan.filter(d => d.dy >= .3 * k.h);
+  doan = [];
+  for (const d of lon) themDoan(d.dau, d.dy);
+  if (doan.length < 3 || doan.length > 7) return null;          // N có 3 nhịp, W có 4
+  if (Math.abs(net_dx) < .35 * k.h) return null;                 // phải tiến ngang
+  if (nguoc > .35 * tongDx) return null;                         // không quẹt qua quẹt lại
+  return k;
+}
+function nhanDien(ds) {
+  const hopLe = ds.filter(s => { if (s.length < 4) return false; const k = khung(s); return Math.hypot(k.w, k.h) >= 12; });
+  const gop = gopNet(hopLe);
+  const zz = gop.map(laZicZac).filter(Boolean);
+  for (let i = 0; i < zz.length; i++)
+    for (let j = i + 1; j < zz.length; j++) {
+      const a = zz[i], b = zz[j];
+      const trung = Math.min(a.r, b.r) - Math.max(a.l, b.l);
+      if (trung >= .3 * Math.min(a.w, b.w)) return 'dung';
+    }
+  if (zz.length === 1 && gop.length === 1) return 'mot';
+  return 'sai';
+}
+
+/* ════════════ DIỄN BIẾN ════════════ */
+
+let hetThongBao = null;
+function bao(chu, ms = 2200) {
+  thongBao.textContent = chu;
+  thongBao.classList.add('hien');
+  clearTimeout(hetThongBao);
+  hetThongBao = setTimeout(() => thongBao.classList.remove('hien'), ms);
+}
+
+function baoSai() {
+  bungLua = 1;
+  san.classList.remove('rung');
+  void san.offsetWidth;
+  san.classList.add('rung');
+  bao(CAI_DAT.BAO_SAI);
+  AmThanh.bung();
+}
+
+function batDauDap() {
+  tDap = performance.now();
+  huongDan.style.opacity = '0';
+  AmThanh.nuoc();
+  setTimeout(() => uot.classList.add('hien'), 600);
+  setTimeout(batDauHien, 1500);
+}
+
+function batDauHien() {
+  trangThai = 'hien';
+  dungVongLap = performance.now() + 6000;
+  chuGiay.style.opacity = '0';
+  AmThanh.chuong();
+  bao(CAI_DAT.BAO_DUNG, 2600);
+
+  // Mực hiện dần từ vài chỗ nước thấm, loang ra khắp tờ giấy
+  const r = noiDung.getBoundingClientRect();
+  const nguon = [[ngau(.25, .45), ngau(.25, .45)], [ngau(.55, .75), ngau(.4, .6)], [ngau(.3, .6), ngau(.65, .85)]]
+    .map(([u, v], i) => ({ x: u * r.width, y: v * r.height, tre: i * 250 }));
+  const xa = Math.hypot(r.width, r.height), long = 70 * sc, keo = 2800;
+  const datMat = m => { noiDung.style.webkitMaskImage = m; noiDung.style.maskImage = m; };
+  const t0 = performance.now();
+  datMat('linear-gradient(transparent, transparent)');
+  noiDung.style.opacity = '1';
+  requestAnimationFrame(() => noiDung.classList.add('ro'));
+  (function loang(now) {
+    let xong = true;
+    const lop = nguon.map(n => {
+      let k = Math.max(0, Math.min(1, (now - t0 - n.tre) / keo));
+      if (k < 1) xong = false;
+      k = k < .5 ? 2 * k * k : 1 - (-2 * k + 2) ** 2 / 2;
+      const rr = k * xa;
+      return `radial-gradient(circle at ${n.x.toFixed(0)}px ${n.y.toFixed(0)}px, #000 ${rr.toFixed(0)}px, transparent ${(rr + long).toFixed(0)}px)`;
+    });
+    if (giamChuyenDong || xong) {
+      datMat('none');
+      huongDan.textContent = CAI_DAT.HUONG_DAN_SAU;
+      huongDan.style.opacity = '';
+      san.classList.add('xong');
+      return;
+    }
+    datMat(lop.join(','));
+    requestAnimationFrame(loang);
+  })(t0);
+}
+
+/* ════════════ ÂM THANH (tự tổng hợp, không cần tệp) ════════════ */
+
+const AmThanh = (() => {
+  let bat = CAI_DAT.AM_THANH, ac = null, chinh = null, nhieu = null;
+  let luaNguon = [], luaGain = null, henTach = null;
+
+  function taoNhieu(giay) {
+    const b = ac.createBuffer(1, ac.sampleRate * giay, ac.sampleRate);
+    const d = b.getChannelData(0);
+    for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+    return b;
+  }
+  function nguonNhieu(lap) {
+    const s = ac.createBufferSource();
+    s.buffer = nhieu; s.loop = !!lap;
+    return s;
+  }
+  function loc(loai, tan, q) {
+    const f = ac.createBiquadFilter();
+    f.type = loai; f.frequency.value = tan; if (q) f.Q.value = q;
+    return f;
+  }
+  function noi(...ds) { for (let i = 1; i < ds.length; i++) ds[i - 1].connect(ds[i]); return ds[ds.length - 1]; }
+
+  function batLua() {
+    const t = ac.currentTime;
+    luaGain = ac.createGain();
+    luaGain.gain.setValueAtTime(0, t);
+    luaGain.gain.linearRampToValueAtTime(1, t + 1);
+    luaGain.connect(chinh);
+    // tiếng lửa ù ù
+    const a = nguonNhieu(true), ga = ac.createGain(); ga.gain.value = .07;
+    noi(a, loc('bandpass', 600, .7), loc('lowpass', 1800), ga, luaGain);
+    const b = nguonNhieu(true), gb = ac.createGain(); gb.gain.value = .09;
+    noi(b, loc('lowpass', 180), gb, luaGain);
+    a.start(); b.start();
+    luaNguon = [a, b];
+    // tiếng lách tách
+    (function tach() {
+      if (trangThai !== 'chay' && mucLua <= .02) return;
+      if (bat) {
+        const t = ac.currentTime, s = nguonNhieu(false), g = ac.createGain();
+        const to = ngau(.03, .22) * (mucLua + bungLua);
+        g.gain.setValueAtTime(to, t);
+        g.gain.exponentialRampToValueAtTime(.0001, t + ngau(.02, .08));
+        noi(s, loc('highpass', ngau(1200, 3200)), g, luaGain);
+        s.start(t, Math.random(), .1);
+      }
+      henTach = setTimeout(tach, ngau(30, 170));
+    })();
+  }
+
+  function khoiDong() {
+    if (!bat) return;
+    if (!ac) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      ac = new AC();
+      chinh = ac.createGain();
+      chinh.gain.value = .9;
+      chinh.connect(ac.destination);
+      nhieu = taoNhieu(2);
+      if (trangThai === 'chay') batLua();
+    }
+    if (ac.state === 'suspended') ac.resume();
+  }
+
+  function tatLua() {
+    if (!ac || !luaGain) return;
+    const t = ac.currentTime;
+    luaGain.gain.cancelScheduledValues(t);
+    luaGain.gain.setValueAtTime(luaGain.gain.value, t);
+    luaGain.gain.linearRampToValueAtTime(0, t + 1.2);
+    luaNguon.forEach(s => s.stop(t + 1.3));
+    clearTimeout(henTach);
+  }
+
+  function bung() {   // lửa bùng lên khi vẽ sai
+    if (!ac || !bat) return;
+    const t = ac.currentTime, s = nguonNhieu(false), f = loc('bandpass', 250, 1.2), g = ac.createGain();
+    f.frequency.setValueAtTime(250, t);
+    f.frequency.exponentialRampToValueAtTime(1400, t + .5);
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(.32, t + .12);
+    g.gain.exponentialRampToValueAtTime(.0001, t + .75);
+    noi(s, f, g, chinh);
+    s.start(t, 0, .8);
+  }
+
+  function nuoc() {   // nước dội + tiếng xèo
+    tatLua();
+    if (!ac || !bat) return;
+    const t = ac.currentTime;
+    // ào nước
+    const s1 = nguonNhieu(false), g1 = ac.createGain();
+    g1.gain.setValueAtTime(.4, t);
+    g1.gain.exponentialRampToValueAtTime(.0001, t + .6);
+    noi(s1, loc('lowpass', 900), g1, chinh);
+    s1.start(t, 0, .7);
+    // mưa rào
+    const s2 = nguonNhieu(false), g2 = ac.createGain();
+    g2.gain.setValueAtTime(0, t);
+    g2.gain.linearRampToValueAtTime(.2, t + .15);
+    g2.gain.linearRampToValueAtTime(0, t + 1.5);
+    noi(s2, loc('bandpass', 1300, .4), g2, chinh);
+    s2.start(t, .3, 1.6);
+    // xèo xèo
+    const s3 = nguonNhieu(true), g3 = ac.createGain();
+    g3.gain.setValueAtTime(0, t);
+    g3.gain.linearRampToValueAtTime(.24, t + .35);
+    g3.gain.exponentialRampToValueAtTime(.0001, t + 2.6);
+    noi(s3, loc('highpass', 2600), g3, chinh);
+    s3.start(t);
+    s3.stop(t + 2.7);
+  }
+
+  function chuong() {   // chuông ngân khi mật thư hiện
+    if (!ac || !bat) return;
+    const t = ac.currentTime;
+    [1046.5, 1318.5, 1568, 2093].forEach((hz, i) => {
+      const o = ac.createOscillator(), g = ac.createGain(), bd = t + i * .18;
+      o.type = 'sine'; o.frequency.value = hz;
+      g.gain.setValueAtTime(0, bd);
+      g.gain.linearRampToValueAtTime(.12, bd + .02);
+      g.gain.exponentialRampToValueAtTime(.0001, bd + 1.9);
+      o.connect(g); g.connect(chinh);
+      o.start(bd); o.stop(bd + 2);
+    });
+  }
+
+  function doi() {
+    bat = !bat;
+    if (bat) {
+      khoiDong();
+      if (chinh) chinh.gain.setTargetAtTime(.9, ac.currentTime, .05);
+    } else if (chinh) {
+      chinh.gain.setTargetAtTime(0, ac.currentTime, .05);
+    }
+    capNhatNut();
+  }
+  function capNhatNut() {
+    nutAm.textContent = bat ? '🔊' : '🔇';
+    nutAm.setAttribute('aria-label', bat ? 'Tắt âm thanh' : 'Bật âm thanh');
+  }
+  capNhatNut();
+  return { khoiDong, bung, nuoc, chuong, doi };
+})();
+
+nutAm.addEventListener('click', () => AmThanh.doi());
+
+/* ── Khởi động ── */
+window.addEventListener('resize', () => { if (trangThai === 'chay') { lua.length = tan.length = khoi.length = 0; } boCuc(); });
+boCuc();
+requestAnimationFrame(capNhatVaVe);
+</script>
+
+</body>
+</html>
